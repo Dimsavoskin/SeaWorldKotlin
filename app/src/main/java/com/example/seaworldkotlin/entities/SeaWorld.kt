@@ -3,17 +3,22 @@ package com.example.seaworldkotlin.entities
 import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.utils.*
 import java.util.*
+import javax.inject.Inject
 
 class SeaWorld {
 
     init {
-        SeaWorldApp.modelsComponent.inject(this)
+        SeaWorldApp.modelsComponent?.inject(this)
     }
 
     private var animalsNumber: MutableMap<Animal.Companion.Species, Int> = HashMap()
     private var animalsIdCounter = 0
-    private var waterSpace = array2dOfInt(numOfRows, numOfColumns)
-    private var animalsMap: MutableMap<Int, Animal> = TreeMap()
+
+    @Inject
+    lateinit var waterSpace: Array<IntArray>
+
+    @Inject
+    lateinit var animalsMap: MutableMap<Int, Animal>
 
     fun reset() {
         animalsNumber[Animal.Companion.Species.ORCA] = numOfColumns * numOfRows * percentOfOrca / 100
@@ -58,6 +63,6 @@ class SeaWorld {
 
     companion object {
 
-        private const val TAG = "World"
+        private const val TAG = "SeaWorld"
     }
 }

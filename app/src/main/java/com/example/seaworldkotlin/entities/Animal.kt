@@ -7,11 +7,14 @@ import javax.inject.Inject
 abstract class Animal(id: Int, pos: Pair<Int, Int>) {
 
     init {
-        SeaWorldApp.modelsComponent.inject(this)
+        SeaWorldApp.modelsComponent?.inject(this)
     }
 
     @Inject
     lateinit var waterSpace: Array<IntArray>
+
+    @Inject
+    lateinit var animalsMap: MutableMap<Int, Animal>
 
     var lifeTime = 0
     var timeToReprodution = 0
