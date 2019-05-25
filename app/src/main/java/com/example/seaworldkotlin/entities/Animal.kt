@@ -2,6 +2,8 @@ package com.example.seaworldkotlin.entities
 
 import com.example.seaworldkotlin.R
 import com.example.seaworldkotlin.SeaWorldApp
+import com.example.seaworldkotlin.entities.behavior.EnvironsMoving
+import com.example.seaworldkotlin.entities.behavior.IMovingBehaviour
 import com.example.seaworldkotlin.utils.freeWaterCode
 import java.util.function.Function
 import javax.inject.Inject
@@ -24,6 +26,8 @@ abstract class Animal(val id: Int, var pos: Pair<Int, Int>) {
 
     abstract val species: Species
     private val environs = 1
+
+    val movingBehaviour: IMovingBehaviour = EnvironsMoving()
 
     abstract fun lifeStep()
 

@@ -1,4 +1,4 @@
-package util
+package android.util
 
 /**
  * Created on 11.03.2018.
