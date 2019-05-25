@@ -14,6 +14,6 @@ class Orca(id: Int, pos: Pair<Int, Int>) : Animal(id, pos) {
 
     companion object {
 
-        private val TAG = "Orca"
+        private const val TAG = "Orca"
     }
 }

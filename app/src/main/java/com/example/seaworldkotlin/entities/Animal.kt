@@ -1,8 +1,17 @@
 package com.example.seaworldkotlin.entities
 
 import com.example.seaworldkotlin.R
+import com.example.seaworldkotlin.SeaWorldApp
+import javax.inject.Inject
 
 abstract class Animal(id: Int, pos: Pair<Int, Int>) {
+
+    init {
+        SeaWorldApp.modelsComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var waterSpace: Array<IntArray>
 
     var lifeTime = 0
     var timeToReprodution = 0
@@ -21,6 +30,6 @@ abstract class Animal(id: Int, pos: Pair<Int, Int>) {
             ORCA(R.drawable.orca)
         }
 
-        private val TAG = "Animal"
+        private const val TAG = "Animal"
     }
 }

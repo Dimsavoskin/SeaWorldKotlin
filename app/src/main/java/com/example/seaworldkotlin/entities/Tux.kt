@@ -14,6 +14,6 @@ class Tux(id: Int, pos: Pair<Int, Int>) : Animal(id, pos) {
 
     companion object {
 
-        private val TAG = "Tux"
+        private const val TAG = "Tux"
     }
 }

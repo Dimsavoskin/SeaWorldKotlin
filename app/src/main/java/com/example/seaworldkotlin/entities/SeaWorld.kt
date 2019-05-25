@@ -1,17 +1,23 @@
 package com.example.seaworldkotlin.entities
 
+import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.utils.*
 import java.util.*
 
 class SeaWorld {
+
+    init {
+        SeaWorldApp.modelsComponent.inject(this)
+    }
+
     private var animalsNumber: MutableMap<Animal.Companion.Species, Int> = HashMap()
     private var animalsIdCounter = 0
     private var waterSpace = array2dOfInt(numOfRows, numOfColumns)
     private var animalsMap: MutableMap<Int, Animal> = TreeMap()
 
     fun reset() {
-        animalsNumber.put(Animal.Companion.Species.ORCA, numOfColumns * numOfRows * percentOfOrca / 100)
-        animalsNumber.put(Animal.Companion.Species.TUX, numOfColumns * numOfRows * timeToReproductionTux / 100)
+        animalsNumber[Animal.Companion.Species.ORCA] = numOfColumns * numOfRows * percentOfOrca / 100
+        animalsNumber[Animal.Companion.Species.TUX] = numOfColumns * numOfRows * timeToReproductionTux / 100
         for (i in waterSpace.indices) {
             for (j in waterSpace[i].indices) {
                 waterSpace[i][j] = freeWaterCode
@@ -23,10 +29,7 @@ class SeaWorld {
         // create animals and put them on the field
         for (species in animalsNumber.keys) {
             for (i in 0 until animalsNumber[species]!!) {
-                animalsMap.put(
-                    animalsIdCounter,
-                    createAnimals(species,animalsIdCounter, occupyFreePosition(animalsIdCounter))
-                )
+                animalsMap[animalsIdCounter] = createAnimals(species, animalsIdCounter, occupyFreePosition(animalsIdCounter))
                 animalsIdCounter++
             }
         }
@@ -54,6 +57,7 @@ class SeaWorld {
     }
 
     companion object {
-        private val TAG = "World"
+
+        private const val TAG = "World"
     }
 }
