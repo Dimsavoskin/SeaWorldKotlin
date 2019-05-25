@@ -2,9 +2,11 @@ package com.example.seaworldkotlin.entities
 
 import com.example.seaworldkotlin.R
 import com.example.seaworldkotlin.SeaWorldApp
+import com.example.seaworldkotlin.utils.freeWaterCode
+import java.util.function.Function
 import javax.inject.Inject
 
-abstract class Animal(id: Int, pos: Pair<Int, Int>) {
+abstract class Animal(val id: Int, var pos: Pair<Int, Int>) {
 
     init {
         SeaWorldApp.modelsComponent?.inject(this)
@@ -21,10 +23,62 @@ abstract class Animal(id: Int, pos: Pair<Int, Int>) {
     var isAlive = true
 
     abstract val species: Species
+    private val environs = 1
 
     abstract fun lifeStep()
 
     abstract fun createBaby(id: Int, pos: Pair<Int, Int>): Animal
+
+    fun findPlacesForMoving(): List<Pair<Int, Int>> {
+        return findInEnvirons(Function { potentialPosition -> freeWaterCode == potentialPosition })
+    }
+
+    fun findVictims(): List<Pair<Int, Int>> {
+        return findInEnvirons(Function { potentialTargetId ->
+            potentialTargetId != freeWaterCode
+                    && species == Companion.Species.ORCA
+        })
+    }
+
+    private fun findInEnvirons(conditionForAddPosition: Function<Int, Boolean>): List<Pair<Int, Int>> {
+        //define environs border by X
+        var beginRangeBypassX = pos.first - environs
+        if (beginRangeBypassX < 0) {
+            beginRangeBypassX = 0
+        }
+
+        var endRangeBypassX = pos.first + environs
+        if (endRangeBypassX > waterSpace[0].lastIndex) {
+            endRangeBypassX = waterSpace[0].lastIndex
+        }
+
+        //define environs border by Y
+        var beginRangeBypassY = pos.second - environs
+        if (beginRangeBypassY < 0) {
+            beginRangeBypassY = 0
+        }
+
+        var endRangeBypassY = pos.second + environs
+        if (endRangeBypassY > waterSpace.lastIndex) {
+            endRangeBypassY = waterSpace.lastIndex
+        }
+
+        //search suitable positions
+        val foundPositions = mutableListOf<Pair<Int, Int>>()
+        for (i in beginRangeBypassY..endRangeBypassY) {
+            for (j in beginRangeBypassX..endRangeBypassX) {
+                if (i == pos.second && j == pos.first) {
+                    continue
+                } else {
+                    if (conditionForAddPosition.apply(waterSpace[i][j])) {
+                        foundPositions.add(Pair(j, i))
+                    }
+                }
+            }
+        }
+
+        return foundPositions
+    }
 
     companion object {
 
