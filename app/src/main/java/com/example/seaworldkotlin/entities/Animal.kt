@@ -10,6 +10,8 @@ abstract class Animal(id: Int, pos: Pair<Int, Int>) {
 
     abstract val species: Species
 
+    abstract fun lifeStep()
+
     abstract fun createBaby(id: Int, pos: Pair<Int, Int>): Animal
 
     companion object {

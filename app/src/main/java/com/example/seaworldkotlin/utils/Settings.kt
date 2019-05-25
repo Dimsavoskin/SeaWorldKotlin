@@ -7,6 +7,7 @@ const val percentOfOrca = 5
 const val timeToReproductionTux = 3
 const val timeToReproductionOrca = 8
 const val timeWithoutFoodOrca = 3
+const val freeWaterCode = -1
 
 fun array2dOfInt(sizeOuter: Int, sizeInner: Int): Array<IntArray>
         = Array(sizeOuter) { IntArray(sizeInner) }
