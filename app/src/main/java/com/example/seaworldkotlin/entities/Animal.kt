@@ -3,6 +3,7 @@ package com.example.seaworldkotlin.entities
 import com.example.seaworldkotlin.R
 import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.entities.behavior.EnvironsMoving
+import com.example.seaworldkotlin.entities.behavior.IEatingBehaviour
 import com.example.seaworldkotlin.entities.behavior.IMovingBehaviour
 import com.example.seaworldkotlin.utils.freeWaterCode
 import java.util.function.Function
@@ -23,6 +24,8 @@ abstract class Animal(val id: Int, var pos: Pair<Int, Int>) {
     var lifeTime = 0
     var timeToReprodution = 0
     var isAlive = true
+
+    abstract val eatingBehaviour: IEatingBehaviour
 
     abstract val species: Species
     private val environs = 1
