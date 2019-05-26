@@ -4,21 +4,24 @@ import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.utils.*
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class SeaWorld {
 
-    init {
-        SeaWorldApp.modelsComponent?.inject(this)
-    }
-
     private var animalsNumber: MutableMap<Animal.Companion.Species, Int> = HashMap()
-    private var animalsIdCounter = 0
 
     @Inject
     lateinit var waterSpace: Array<IntArray>
 
     @Inject
     lateinit var animalsMap: MutableMap<Int, Animal>
+
+    @set:[Inject Named("animalsIdCounter")]
+    private var animalsIdCounter = 0
+
+    init {
+        SeaWorldApp.modelsComponent?.inject(this)
+    }
 
     fun reset() {
         animalsNumber[Animal.Companion.Species.ORCA] = numOfColumns * numOfRows * percentOfOrca / 100

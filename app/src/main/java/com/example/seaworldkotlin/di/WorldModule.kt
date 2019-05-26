@@ -10,18 +10,25 @@ import javax.inject.Singleton
 @Module
 class WorldModule(fieldSizeX: Int, fieldSizeY: Int) {
 
-    private val field = array2dOfInt(fieldSizeX, fieldSizeY)
-    private var animalsMap: MutableMap<Int, Animal> = TreeMap()
+    private val waterSpace = array2dOfInt(fieldSizeX, fieldSizeY)
+    private val animalsMap: MutableMap<Int, Animal> = TreeMap()
+    private var animalsIdCounter: Int = 0
 
     @Provides
     @Singleton
     fun provideWaterSpace(): Array<IntArray> {
-        return field
+        return waterSpace
     }
 
     @Provides
     @Singleton
     fun provideAnimalsMap(): MutableMap<Int, Animal> {
         return animalsMap
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnimalsIdCounter(): Int {
+        return animalsIdCounter
     }
 }

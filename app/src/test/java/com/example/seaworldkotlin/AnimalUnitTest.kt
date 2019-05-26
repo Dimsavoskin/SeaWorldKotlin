@@ -49,6 +49,12 @@ class AnimalUnitTest(val x: Int, val y: Int) {
         Assert.assertTrue(result)
     }
 
+    @Test
+    fun testPeriodicReproduction() {
+        val result = orca.reproductionBehaviour.reproduce(orca, orca.findPlacesForMoving())
+        Assert.assertTrue(result)
+    }
+
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: test 'Find free positions:")

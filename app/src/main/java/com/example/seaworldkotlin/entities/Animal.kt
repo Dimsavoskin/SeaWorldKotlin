@@ -5,6 +5,7 @@ import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.entities.behavior.EnvironsMoving
 import com.example.seaworldkotlin.entities.behavior.IEatingBehaviour
 import com.example.seaworldkotlin.entities.behavior.IMovingBehaviour
+import com.example.seaworldkotlin.entities.behavior.IReproductionBehaviour
 import com.example.seaworldkotlin.utils.freeWaterCode
 import java.util.function.Function
 import javax.inject.Inject
@@ -25,12 +26,14 @@ abstract class Animal(val id: Int, var pos: Pair<Int, Int>) {
     var timeToReprodution = 0
     var isAlive = true
 
+    var reproductionPeriod = 0
+
     abstract val eatingBehaviour: IEatingBehaviour
+    abstract val reproductionBehaviour: IReproductionBehaviour
+    val movingBehaviour: IMovingBehaviour = EnvironsMoving()
 
     abstract val species: Species
     private val environs = 1
-
-    val movingBehaviour: IMovingBehaviour = EnvironsMoving()
 
     abstract fun lifeStep()
 

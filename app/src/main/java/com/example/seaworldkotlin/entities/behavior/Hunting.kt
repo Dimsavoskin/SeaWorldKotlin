@@ -11,7 +11,7 @@ class Hunting: IEatingBehaviour {
         val pos = animal.pos
 
         if (foundPositionsInEnvirons.isNotEmpty()) {
-            // select random victim
+            // select random position
             val bufferRandomNum = (Math.random() * foundPositionsInEnvirons.size).toInt()
             val selectedFreePos = foundPositionsInEnvirons[bufferRandomNum]
 
