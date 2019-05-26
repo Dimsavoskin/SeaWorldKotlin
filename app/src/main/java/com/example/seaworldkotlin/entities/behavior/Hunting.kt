@@ -2,7 +2,7 @@ package com.example.seaworldkotlin.entities.behavior
 
 import android.util.Log
 import com.example.seaworldkotlin.entities.Animal
-import com.example.seaworldkotlin.utils.freeWaterCode
+import com.example.seaworldkotlin.utils.FREE_WATER_CODE
 
 
 class Hunting: IEatingBehaviour {
@@ -24,7 +24,7 @@ class Hunting: IEatingBehaviour {
             animal.animalsMap.remove(victimId)
 
             animal.waterSpace[selectedFreePos.second][selectedFreePos.first] = animal.waterSpace[pos.second][pos.first]
-            animal.waterSpace[pos.second][pos.first] = freeWaterCode
+            animal.waterSpace[pos.second][pos.first] = FREE_WATER_CODE
             animal.animalsMap[animal.id]?.pos = selectedFreePos
 
             return true

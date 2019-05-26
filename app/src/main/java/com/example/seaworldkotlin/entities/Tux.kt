@@ -2,7 +2,7 @@ package com.example.seaworldkotlin.entities
 
 import com.example.seaworldkotlin.entities.behavior.Reproduction
 import com.example.seaworldkotlin.entities.behavior.Vegan
-import com.example.seaworldkotlin.utils.timeToReproductionTux
+import com.example.seaworldkotlin.utils.TIME_TO_REPRODUCTION_TUX
 
 class Tux(id: Int, pos: Pair<Int, Int>) : Animal(id, pos) {
 
@@ -11,11 +11,7 @@ class Tux(id: Int, pos: Pair<Int, Int>) : Animal(id, pos) {
     override val reproductionBehaviour = Reproduction()
 
     init {
-        reproductionPeriod = timeToReproductionTux
-    }
-
-    override fun lifeStep() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        reproductionPeriod = TIME_TO_REPRODUCTION_TUX
     }
 
     override fun createBaby(id: Int, pos: Pair<Int, Int>): Animal {

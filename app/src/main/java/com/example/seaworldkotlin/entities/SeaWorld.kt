@@ -24,11 +24,11 @@ class SeaWorld {
     }
 
     fun reset() {
-        animalsNumber[Animal.Companion.Species.ORCA] = numOfColumns * numOfRows * percentOfOrca / 100
-        animalsNumber[Animal.Companion.Species.TUX] = numOfColumns * numOfRows * timeToReproductionTux / 100
+        animalsNumber[Animal.Companion.Species.ORCA] = WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_ORCA / 100
+        animalsNumber[Animal.Companion.Species.TUX] = WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_TUX / 100
         for (i in waterSpace.indices) {
             for (j in waterSpace[i].indices) {
-                waterSpace[i][j] = freeWaterCode
+                waterSpace[i][j] = FREE_WATER_CODE
             }
         }
         animalsIdCounter = 0
@@ -56,9 +56,9 @@ class SeaWorld {
         var posCandidate: Pair<Int, Int>
 
         do {
-            randomPos = (Math.random() * numOfColumns * numOfRows).toInt()
-            posCandidate = Pair(randomPos % numOfColumns, randomPos / numOfColumns)
-        } while (waterSpace[posCandidate.second][posCandidate.first] != freeWaterCode)
+            randomPos = (Math.random() * WORLD_SIZE_X * WORLD_SIZE_Y).toInt()
+            posCandidate = Pair(randomPos % WORLD_SIZE_X, randomPos / WORLD_SIZE_X)
+        } while (waterSpace[posCandidate.second][posCandidate.first] != FREE_WATER_CODE)
         waterSpace[posCandidate.second][posCandidate.first] = id
 
         return posCandidate

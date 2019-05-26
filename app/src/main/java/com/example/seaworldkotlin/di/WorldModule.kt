@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Module
 class WorldModule(fieldSizeX: Int, fieldSizeY: Int) {
 
-    private val waterSpace = array2dOfInt(fieldSizeX, fieldSizeY)
+    private val waterSpace = array2dOfInt(fieldSizeY, fieldSizeX)
     private val animalsMap: MutableMap<Int, Animal> = TreeMap()
     private var animalsIdCounter: Int = 0
 

@@ -3,7 +3,7 @@ package com.example.seaworldkotlin
 import com.example.seaworldkotlin.entities.Orca
 import com.example.seaworldkotlin.entities.Tux
 import com.example.seaworldkotlin.utils.array2dOfInt
-import com.example.seaworldkotlin.utils.freeWaterCode
+import com.example.seaworldkotlin.utils.FREE_WATER_CODE
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,9 +16,9 @@ class AnimalUnitTest(val x: Int, val y: Int) {
 
     init {
         orca.waterSpace = array2dOfInt(3, 3)
-        orca.waterSpace[0] = intArrayOf(freeWaterCode, freeWaterCode, freeWaterCode)
-        orca.waterSpace[1] = intArrayOf(freeWaterCode, 1, freeWaterCode)
-        orca.waterSpace[2] = intArrayOf(2, freeWaterCode, 3)
+        orca.waterSpace[0] = intArrayOf(FREE_WATER_CODE, FREE_WATER_CODE, FREE_WATER_CODE)
+        orca.waterSpace[1] = intArrayOf(FREE_WATER_CODE, 1, FREE_WATER_CODE)
+        orca.waterSpace[2] = intArrayOf(2, FREE_WATER_CODE, 3)
 
         orca.animalsMap = mutableMapOf()
         orca.animalsMap[0] = Orca(0, Pair(x, y))
@@ -30,7 +30,7 @@ class AnimalUnitTest(val x: Int, val y: Int) {
     @Test
     fun testFindPlacesForMoving() {
 
-        val size = orca.findPlacesForMoving().size
+        val size = orca.findFreePlaces().size
         assert(size > 0)
         println("x = $x, y = $y, founded positions = $size")
     }
@@ -45,13 +45,13 @@ class AnimalUnitTest(val x: Int, val y: Int) {
 
     @Test
     fun testEnvironsMoving() {
-        val result = orca.movingBehaviour.move(orca, orca.findPlacesForMoving())
+        val result = orca.movingBehaviour.move(orca, orca.findFreePlaces())
         Assert.assertTrue(result)
     }
 
     @Test
     fun testPeriodicReproduction() {
-        val result = orca.reproductionBehaviour.reproduce(orca, orca.findPlacesForMoving())
+        val result = orca.reproductionBehaviour.reproduce(orca, orca.findFreePlaces())
         Assert.assertTrue(result)
     }
 

@@ -6,7 +6,7 @@ import com.example.seaworldkotlin.entities.behavior.EnvironsMoving
 import com.example.seaworldkotlin.entities.behavior.IEatingBehaviour
 import com.example.seaworldkotlin.entities.behavior.IMovingBehaviour
 import com.example.seaworldkotlin.entities.behavior.IReproductionBehaviour
-import com.example.seaworldkotlin.utils.freeWaterCode
+import com.example.seaworldkotlin.utils.FREE_WATER_CODE
 import java.util.function.Function
 import javax.inject.Inject
 
@@ -23,6 +23,7 @@ abstract class Animal(val id: Int, var pos: Pair<Int, Int>) {
     lateinit var animalsMap: MutableMap<Int, Animal>
 
     var lifeTime = 0
+    var timeFromEating = 0
     var timeToReprodution = 0
     var isAlive = true
 
@@ -35,17 +36,23 @@ abstract class Animal(val id: Int, var pos: Pair<Int, Int>) {
     abstract val species: Species
     private val environs = 1
 
-    abstract fun lifeStep()
-
     abstract fun createBaby(id: Int, pos: Pair<Int, Int>): Animal
 
-    fun findPlacesForMoving(): List<Pair<Int, Int>> {
-        return findInEnvirons(Function { potentialPosition -> freeWaterCode == potentialPosition })
+    open fun lifeStep() {
+        movingBehaviour.move(this, findFreePlaces())
+        lifeTime++
+        if (lifeTime != 0 && 0 == lifeTime % reproductionPeriod) {
+            reproductionBehaviour.reproduce(this, findFreePlaces())
+        }
+    }
+
+    fun findFreePlaces(): List<Pair<Int, Int>> {
+        return findInEnvirons(Function { potentialPosition -> FREE_WATER_CODE == potentialPosition })
     }
 
     fun findVictims(): List<Pair<Int, Int>> {
         return findInEnvirons(Function { potentialTargetId ->
-            potentialTargetId != freeWaterCode
+            potentialTargetId != FREE_WATER_CODE
                     && species == Companion.Species.ORCA
         })
     }

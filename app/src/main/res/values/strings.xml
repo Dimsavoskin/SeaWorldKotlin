@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SeaWorldKotlin</string>
+    <string name="reset">Restart</string>
 </resources>

@@ -33,6 +33,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    //rx
+    implementation 'io.reactivex:rxjava:1.1.9'
+    implementation 'io.reactivex:rxjava-joins:0.22.0'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+
     // Moxy
     implementation 'com.arello-mobile:moxy:1.5.5'
     implementation 'com.arello-mobile:moxy-android:1.5.5'

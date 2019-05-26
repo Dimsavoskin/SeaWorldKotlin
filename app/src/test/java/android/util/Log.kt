@@ -1,8 +1,6 @@
 package android.util
 
-/**
- * Created on 11.03.2018.
- */
+
 class Log {
     companion object {
         @JvmStatic
