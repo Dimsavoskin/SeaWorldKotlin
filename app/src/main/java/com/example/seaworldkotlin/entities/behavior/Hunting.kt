@@ -38,6 +38,6 @@ class Hunting : IEatingBehaviour {
 
     companion object {
 
-        private val TAG = "Hunting"
+        private const val TAG = "Hunting"
     }
 }

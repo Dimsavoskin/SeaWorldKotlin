@@ -34,6 +34,6 @@ class EnvironsMoving : IMovingBehaviour {
 
     companion object {
 
-        private val TAG = "EnvironsMoving"
+        private const val TAG = "EnvironsMoving"
     }
 }

@@ -5,7 +5,7 @@ import com.example.seaworldkotlin.use_cases.dto.InitDataDto
 import rx.Observable
 
 
-class SeaWorldInteractor(val seaWorldRepository: ISeaWorldRepository) : ISeaWorldInteractor {
+class SeaWorldInteractor(private val seaWorldRepository: ISeaWorldRepository) : ISeaWorldInteractor {
 
     override fun getInitData(): InitDataDto {
         return seaWorldRepository.getFieldParameters()

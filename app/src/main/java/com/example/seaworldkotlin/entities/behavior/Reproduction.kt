@@ -27,7 +27,7 @@ class Reproduction : IReproductionBehaviour {
 
             //create baby at the new position
             val baby = animal.createBaby(animalsIdCounter.counter, selectedFreePos)
-            animal.animalsMap.put(animalsIdCounter.counter, baby)
+            animal.animalsMap[animalsIdCounter.counter] = baby
             animal.waterSpace[selectedFreePos.second][selectedFreePos.first] = animalsIdCounter.counter
 
             Log.d(
@@ -44,6 +44,6 @@ class Reproduction : IReproductionBehaviour {
 
     companion object {
 
-        private val TAG = "Reproduction"
+        private const val TAG = "Reproduction"
     }
 }

@@ -23,8 +23,8 @@ class SeaWorld {
     }
 
     fun reset() {
-        animalsNumber.put(Animal.Companion.Species.ORCA, WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_ORCA / 100)
-        animalsNumber.put(Animal.Companion.Species.TUX, WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_TUX / 100)
+        animalsNumber[Animal.Companion.Species.ORCA] = WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_ORCA / 100
+        animalsNumber[Animal.Companion.Species.TUX] = WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_TUX / 100
         for (i in waterSpace.indices) {
             for (j in waterSpace[i].indices) {
                 waterSpace[i][j] = FREE_WATER_CODE
@@ -36,10 +36,8 @@ class SeaWorld {
         // create animals and put them on the field
         for (species in animalsNumber.keys) {
             for (i in 0 until animalsNumber[species]!!) {
-                animalsMap.put(
-                    animalsIdCounter.counter,
+                animalsMap[animalsIdCounter.counter] =
                     createAnimals(species, animalsIdCounter.counter, occupyFreePosition(animalsIdCounter.counter))
-                )
                 animalsIdCounter.counter++
             }
         }

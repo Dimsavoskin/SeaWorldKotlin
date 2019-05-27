@@ -55,6 +55,6 @@ class MainActivity : MvpActivity(), IMainView {
 
     companion object {
 
-        private val TAG = "MainActivity"
+        private const val TAG = "MainActivity"
     }
 }

@@ -64,7 +64,7 @@ class MainPresenter : MvpPresenter<IMainView>() {
             })
     }
 
-    protected fun registerSubscription(subscription: Subscription) {
+    private fun registerSubscription(subscription: Subscription) {
         if (compositeSubscription == null) {
             compositeSubscription = CompositeSubscription()
         }
@@ -86,6 +86,6 @@ class MainPresenter : MvpPresenter<IMainView>() {
 
     companion object {
 
-        val TAG = "MainPresenter"
+        private const val TAG = "MainPresenter"
     }
 }

@@ -1,7 +1,6 @@
 package com.example.seaworldkotlin.repositories
 
 import com.example.seaworldkotlin.entities.Animal
-import com.example.seaworldkotlin.entities.Orca
 import com.example.seaworldkotlin.entities.SeaWorld
 import com.example.seaworldkotlin.use_cases.ISeaWorldRepository
 import com.example.seaworldkotlin.use_cases.dto.AnimalStepData
@@ -18,7 +17,7 @@ class SeaWorldRepository : ISeaWorldRepository {
     /**
      * Flag for interrupt caused by reset.
      */
-    var nextStepFlag = false
+    private var nextStepFlag = false
 
     override fun getFieldParameters(): InitDataDto {
         return InitDataDto(Pair(WORLD_SIZE_X, WORLD_SIZE_Y))
@@ -58,15 +57,9 @@ class SeaWorldRepository : ISeaWorldRepository {
             //add alive animal in list only
             var isAddInList = true
 
-            if (animal.species.equals(Animal.Companion.Species.TUX) || animal.species.equals(Animal.Companion.Species.ORCA)) {
-
+            if (animal.species == Animal.Companion.Species.TUX || animal.species == Animal.Companion.Species.ORCA) {
                 isAddInList = animal.isAlive
-
                 lifeTime = animal.lifeTime
-
-                if (animal.species.equals(Orca)) {
-                    animal as Orca
-                }
             }
 
             if (isAddInList) {
@@ -84,6 +77,6 @@ class SeaWorldRepository : ISeaWorldRepository {
 
     companion object {
 
-        private val TAG = "SeaWorldRepository"
+        private const val TAG = "SeaWorldRepository"
     }
 }

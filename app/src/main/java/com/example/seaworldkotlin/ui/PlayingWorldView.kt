@@ -34,7 +34,7 @@ class PlayingWorldView(context: Context) : SurfaceView(context), SurfaceHolder.C
 
     lateinit var animalsList: List<AnimalStepData>
 
-    var drawWorldFlag = false
+    private var drawWorldFlag = false
 
     private var drawWorldSubscription: Subscription? = null
 
@@ -138,8 +138,8 @@ class PlayingWorldView(context: Context) : SurfaceView(context), SurfaceHolder.C
     }
 
     companion object {
-        private val TAG = "PlayingWorldView"
+        private const val TAG = "PlayingWorldView"
 
-        private val BMP_SCALE = 3
+        private const val BMP_SCALE = 3
     }
 }
