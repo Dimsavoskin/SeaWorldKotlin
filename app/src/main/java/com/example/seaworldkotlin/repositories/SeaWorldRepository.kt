@@ -9,18 +9,44 @@ import com.example.seaworldkotlin.use_cases.dto.CurrentStateDto
 import com.example.seaworldkotlin.use_cases.dto.InitDataDto
 import com.example.seaworldkotlin.utils.WORLD_SIZE_X
 import com.example.seaworldkotlin.utils.WORLD_SIZE_Y
-import com.example.seaworldkotlin.utils.TIME_WITHOUT_FOOD_ORCA
+import rx.Observable
 
 
 class SeaWorldRepository : ISeaWorldRepository {
-    val world = SeaWorld()
+    private val world = SeaWorld()
 
-    override fun getFieldData(): InitDataDto {
-        return InitDataDto(WORLD_SIZE_X, WORLD_SIZE_Y)
+    /**
+     * Flag for interrupt caused by reset.
+     */
+    var nextStepFlag = false
+
+    override fun getFieldParameters(): InitDataDto {
+        return InitDataDto(Pair(WORLD_SIZE_X, WORLD_SIZE_Y))
     }
 
-    override fun nextStep() {
-        world.nextStep()
+    override fun resetGame() {
+        nextStepFlag = false
+        world.reset()
+    }
+
+    override fun getNextStepObservable(): Observable<CurrentStateDto> {
+        return Observable.create { subscriber ->
+            nextStepFlag = true
+            try {
+                for (animal in world.animalsMap.values.sortedWith(Comparator { t1, t2 -> t1.compareTo(t2) })) {
+                    if (!nextStepFlag) {
+                        break
+                    }
+                    if (animal.isAlive) {
+                        animal.lifeStep()
+                        subscriber.onNext(getCurrentState())
+                    }
+                }
+            } catch (ex: InterruptedException) {
+                ex.printStackTrace()
+            }
+            subscriber.onCompleted()
+        }
     }
 
     override fun getCurrentState(): CurrentStateDto {
@@ -28,34 +54,36 @@ class SeaWorldRepository : ISeaWorldRepository {
         for (animal in world.animalsMap.values) {
 
             var lifeTime = -1
+
+            //add alive animal in list only
+            var isAddInList = true
+
             if (animal.species.equals(Animal.Companion.Species.TUX) || animal.species.equals(Animal.Companion.Species.ORCA)) {
+
+                isAddInList = animal.isAlive
+
                 lifeTime = animal.lifeTime
+
+                if (animal.species.equals(Orca)) {
+                    animal as Orca
+                }
             }
 
-            var isStarvingDeathSoon = false
-            val isChildbirthSoon = animal.lifeTime % animal.reproductionPeriod >= animal.reproductionPeriod - 1
-
-            //orca has additional parameters for displaying
-            if (animal.species.equals(Orca)) {
-                animal as Orca
-
-                isStarvingDeathSoon = animal.timeFromEating >= TIME_WITHOUT_FOOD_ORCA - 1
-            }
-
-            animalsList.add(
-                AnimalStepData(
-                    animal.species,
-                    animal.pos,
-                    lifeTime,
-                    isStarvingDeathSoon,
-                    isChildbirthSoon
+            if (isAddInList) {
+                animalsList.add(
+                    AnimalStepData(
+                        animal.species,
+                        animal.pos,
+                        lifeTime
+                    )
                 )
-            )
+            }
         }
         return CurrentStateDto(animalsList)
     }
 
-    override fun resetGame() {
-        world.reset()
+    companion object {
+
+        private val TAG = "SeaWorldRepository"
     }
 }

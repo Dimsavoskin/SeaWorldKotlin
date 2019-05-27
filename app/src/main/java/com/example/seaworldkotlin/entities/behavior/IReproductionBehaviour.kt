@@ -4,5 +4,6 @@ import com.example.seaworldkotlin.entities.Animal
 
 
 interface IReproductionBehaviour {
-    fun reproduce (animal: Animal, foundPositionsInEnvirons: List<Pair<Int, Int>>): Boolean
+
+    fun reproduce(animal: Animal, foundPositionsInEnvirons: List<Pair<Int, Int>>): Boolean
 }

@@ -3,7 +3,6 @@ package com.example.seaworldkotlin.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
-import android.view.View
 import com.arellomobile.mvp.MvpActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.seaworldkotlin.R
@@ -15,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : MvpActivity(), IMainView {
 
+    private lateinit var playingWorldView: PlayingWorldView
+
     @InjectPresenter
     lateinit var presenter: MainPresenter
 
@@ -23,29 +24,33 @@ class MainActivity : MvpActivity(), IMainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        reset_game_button.setOnClickListener({ presenter.onReset() })
+        reset_game_button.setOnClickListener { presenter.onReset() }
 
-        playing_world_view.setOnTouchListener { _, motionEvent ->
+    }
+
+    override fun initField(fieldSize: Pair<Int, Int>, animalsList: List<AnimalStepData>) {
+        Log.d(TAG, "initField")
+        playingWorldView = PlayingWorldView(this)
+        playingWorldView.fieldSizeX = fieldSize.first
+        playingWorldView.fieldSizeY = fieldSize.second
+        playingWorldView.animalsList = animalsList
+        playingWorldView.setOnTouchListener { view, motionEvent ->
             val action = motionEvent.action
             if (action == MotionEvent.ACTION_DOWN) {
                 presenter.onTouch()
             }
             true
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        playing_world_view.stopGame()
-    }
-
-    override fun initField(fieldSizeX: Int, fieldSizeY: Int) {
-        playing_world_view.fieldSizeX = fieldSizeX
-        playing_world_view.fieldSizeY = fieldSizeY
+        playing_world_view_frame.addView(playingWorldView)
     }
 
     override fun drawWorld(animalsList: List<AnimalStepData>) {
-        playing_world_view.animalsList = animalsList
+        playingWorldView.animalsList = animalsList
+    }
+
+    override fun onPause() {
+        Log.d(TAG, "onPause")
+        super.onPause()
     }
 
     companion object {

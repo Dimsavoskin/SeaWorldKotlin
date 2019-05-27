@@ -1,5 +1,6 @@
-package com.example.seaworldkotlin.di
+package com.example.seaworldkotlin.di.components
 
+import com.example.seaworldkotlin.di.modules.WorldModule
 import com.example.seaworldkotlin.entities.Animal
 import com.example.seaworldkotlin.entities.SeaWorld
 import com.example.seaworldkotlin.entities.behavior.Reproduction

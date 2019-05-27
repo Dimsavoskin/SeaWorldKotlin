@@ -1,6 +1,7 @@
 package com.example.seaworldkotlin.entities
 
 import android.util.Log
+import com.example.seaworldkotlin.entities.behavior.EnvironsMoving
 import com.example.seaworldkotlin.entities.behavior.Hunting
 import com.example.seaworldkotlin.entities.behavior.Reproduction
 import com.example.seaworldkotlin.utils.FREE_WATER_CODE
@@ -11,11 +12,9 @@ class Orca(id: Int, pos: Pair<Int, Int>) : Animal(id, pos) {
 
     override val species = Animal.Companion.Species.ORCA
     override val eatingBehaviour = Hunting()
+    override val movingBehaviour = EnvironsMoving()
     override val reproductionBehaviour = Reproduction()
-
-    init {
-        reproductionPeriod = TIME_TO_REPRODUCTION_ORCA
-    }
+    override val reproductionPeriod = TIME_TO_REPRODUCTION_ORCA
 
     override fun lifeStep() {
         //try hunting, if unsuccessful - try move
@@ -23,29 +22,24 @@ class Orca(id: Int, pos: Pair<Int, Int>) : Animal(id, pos) {
             timeFromEating = 0
             Log.d(TAG, "id = $id, success hunting")
         } else {
-            //TODO: think about dublicate code removing
-            Log.d(TAG, "id = $id, success hunting")
-            val isMove = movingBehaviour.move(this, findFreePlaces())
-            if (isMove) {
-                Log.d(TAG, "id = $id, success moving")
-            }
             timeFromEating++
+            Log.d(TAG, "id = $id, unsuccessful hunting")
+            moving()
         }
 
         //check on starving death
         if (timeFromEating >= TIME_WITHOUT_FOOD_ORCA) {
             waterSpace[pos.second][pos.first] = FREE_WATER_CODE
-            animalsMap.remove(this.id)
-            //TODO: decrease orcas numbers
-            Log.d(TAG, "${animalsMap[id]?.species?.name} (${id}):" +
-                    " [${pos.first}, ${pos.second}]: died if hungry!")
+            this.isAlive = false
+
+            Log.d(
+                TAG, "${animalsMap[id]?.species?.name} ($id):" +
+                        " [${pos.first}, ${pos.second}]: died of hungry!"
+            )
         } else {
-            //TODO: think about dublicate code removing
             //reproduction
-            lifeTime++;
-            if (lifeTime != 0 && 0 == lifeTime % reproductionPeriod) {
-                reproductionBehaviour.reproduce(this, findFreePlaces())
-            }
+            lifeTime++
+            reproduction()
         }
     }
 

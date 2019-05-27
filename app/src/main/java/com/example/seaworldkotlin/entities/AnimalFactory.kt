@@ -2,7 +2,7 @@ package com.example.seaworldkotlin.entities
 
 import android.util.Log
 
-fun createAnimals(species: Animal.Companion.Species, id: Int, pos: Pair<Int, Int>) : Animal {
+fun createAnimals(species: Animal.Companion.Species, id: Int, pos: Pair<Int, Int>): Animal {
     val TAG = "AnimalFactory"
 
     val animal = when (species) {

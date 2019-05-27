@@ -2,15 +2,14 @@ package com.example.seaworldkotlin.use_cases
 
 import com.example.seaworldkotlin.use_cases.dto.CurrentStateDto
 import com.example.seaworldkotlin.use_cases.dto.InitDataDto
+import rx.Observable
 
 
 interface ISeaWorldInteractor {
 
-    fun fieldInitialization(): InitDataDto
+    fun getInitData(): InitDataDto
 
-    fun getCurrentPosition(): CurrentStateDto
+    fun getResetGameObservable(): Observable<CurrentStateDto>
 
-    fun doNextStep()
-
-    fun resetGame()
+    fun getNextStepObservable(): Observable<CurrentStateDto>
 }
