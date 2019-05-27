@@ -3,21 +3,21 @@ package com.example.seaworldkotlin.entities.behavior
 import android.util.Log
 import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.entities.Animal
+import com.example.seaworldkotlin.entities.AnimalsIdCounter
 import javax.inject.Inject
-import javax.inject.Named
 
 
-class Reproduction: IReproductionBehaviour {
-    val TAG = "Reproduction"
+class Reproduction : IReproductionBehaviour {
 
-    @set:[Inject Named("animalsIdCounter")]
-    var animalsIdCounter: Int = 0
+    @Inject
+    lateinit var animalsIdCounter: AnimalsIdCounter
 
     init {
         SeaWorldApp.modelsComponent?.inject(this)
     }
 
     override fun reproduce(animal: Animal, foundPositionsInEnvirons: List<Pair<Int, Int>>): Boolean {
+        var result = false
         val pos = animal.pos
 
         if (foundPositionsInEnvirons.isNotEmpty()) {
@@ -26,17 +26,24 @@ class Reproduction: IReproductionBehaviour {
             val selectedFreePos = foundPositionsInEnvirons[bufferRandomNum]
 
             //create baby at the new position
-            val baby = animal.createBaby(animalsIdCounter, selectedFreePos)
-            animal.animalsMap.put(animalsIdCounter, baby)
-            animal.waterSpace[pos.second][pos.first] = animalsIdCounter
+            val baby = animal.createBaby(animalsIdCounter.counter, selectedFreePos)
+            animal.animalsMap.put(animalsIdCounter.counter, baby)
+            animal.waterSpace[selectedFreePos.second][selectedFreePos.first] = animalsIdCounter.counter
 
-            Log.d(TAG, "${animal.animalsMap[animal.id]?.species?.name} (${animal.id})" +
-                    " [${pos.first}, ${pos.second}]: produced ${animal.animalsMap[animalsIdCounter]?.species?.name}" +
-                    "($animalsIdCounter) [${selectedFreePos.first}, ${selectedFreePos.second}]")
+            Log.d(
+                TAG, "${animal.animalsMap[animal.id]?.species?.name} (${animal.id})" +
+                        " [${pos.first}, ${pos.second}]: produced ${animal.animalsMap[animalsIdCounter.counter]?.species?.name}" +
+                        "(${baby.id}) [${baby.pos.first}, ${baby.pos.second}]"
+            )
 
-            animalsIdCounter++
-            return true
+            animalsIdCounter.counter++
+            result = true
         }
-        return false
+        return result
+    }
+
+    companion object {
+
+        private val TAG = "Reproduction"
     }
 }

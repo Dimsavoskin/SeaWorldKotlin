@@ -4,7 +4,6 @@ import com.example.seaworldkotlin.SeaWorldApp
 import com.example.seaworldkotlin.utils.*
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class SeaWorld {
 
@@ -16,37 +15,32 @@ class SeaWorld {
     @Inject
     lateinit var animalsMap: MutableMap<Int, Animal>
 
-    @set:[Inject Named("animalsIdCounter")]
-    private var animalsIdCounter = 0
+    @Inject
+    lateinit var animalsIdCounter: AnimalsIdCounter
 
     init {
         SeaWorldApp.modelsComponent?.inject(this)
     }
 
     fun reset() {
-        animalsNumber[Animal.Companion.Species.ORCA] = WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_ORCA / 100
-        animalsNumber[Animal.Companion.Species.TUX] = WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_TUX / 100
+        animalsNumber.put(Animal.Companion.Species.ORCA, WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_ORCA / 100)
+        animalsNumber.put(Animal.Companion.Species.TUX, WORLD_SIZE_X * WORLD_SIZE_Y * PERCENT_OF_TUX / 100)
         for (i in waterSpace.indices) {
             for (j in waterSpace[i].indices) {
                 waterSpace[i][j] = FREE_WATER_CODE
             }
         }
-        animalsIdCounter = 0
+        animalsIdCounter.counter = 0
         animalsMap.clear()
 
         // create animals and put them on the field
         for (species in animalsNumber.keys) {
             for (i in 0 until animalsNumber[species]!!) {
-                animalsMap[animalsIdCounter] = createAnimals(species, animalsIdCounter, occupyFreePosition(animalsIdCounter))
-                animalsIdCounter++
-            }
-        }
-    }
-
-    fun nextStep() {
-        for (animal in animalsMap.values) {
-            if (animal.isAlive) {
-                animal.lifeStep()
+                animalsMap.put(
+                    animalsIdCounter.counter,
+                    createAnimals(species, animalsIdCounter.counter, occupyFreePosition(animalsIdCounter.counter))
+                )
+                animalsIdCounter.counter++
             }
         }
     }

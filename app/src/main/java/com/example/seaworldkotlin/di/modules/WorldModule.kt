@@ -1,6 +1,7 @@
-package com.example.seaworldkotlin.di
+package com.example.seaworldkotlin.di.modules
 
 import com.example.seaworldkotlin.entities.Animal
+import com.example.seaworldkotlin.entities.AnimalsIdCounter
 import com.example.seaworldkotlin.utils.array2dOfInt
 import dagger.Module
 import dagger.Provides
@@ -12,7 +13,7 @@ class WorldModule(fieldSizeX: Int, fieldSizeY: Int) {
 
     private val waterSpace = array2dOfInt(fieldSizeY, fieldSizeX)
     private val animalsMap: MutableMap<Int, Animal> = TreeMap()
-    private var animalsIdCounter: Int = 0
+    private var animalsIdCounter: AnimalsIdCounter = AnimalsIdCounter()
 
     @Provides
     @Singleton
@@ -28,7 +29,7 @@ class WorldModule(fieldSizeX: Int, fieldSizeY: Int) {
 
     @Provides
     @Singleton
-    fun provideAnimalsIdCounter(): Int {
+    fun provideAnimalsIdCounter(): AnimalsIdCounter {
         return animalsIdCounter
     }
 }
