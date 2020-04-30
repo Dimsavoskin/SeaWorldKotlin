@@ -26,6 +26,15 @@ class MainActivity : MvpActivity(), IMainView {
 
         reset_game_button.setOnClickListener { presenter.onReset() }
 
+        val maxValue = applicationContext.packageCodePath.length
+
+        val value = (if (maxValue == -1) null else if (maxValue == 10) 0 else maxValue)!!
+
+        println(value)
+    }
+
+    fun test(param : Int){
+        test(param)
     }
 
     override fun initField(fieldSize: Pair<Int, Int>, animalsList: List<AnimalStepData>) {
