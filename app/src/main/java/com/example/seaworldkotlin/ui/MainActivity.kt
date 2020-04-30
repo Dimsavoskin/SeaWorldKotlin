@@ -25,15 +25,11 @@ class MainActivity : MvpActivity(), IMainView {
         setContentView(R.layout.activity_main)
 
         reset_game_button.setOnClickListener { presenter.onReset() }
-
-        val maxValue = applicationContext.packageCodePath.length
-
-        val value = (if (maxValue == -1) null else if (maxValue == 10) 0 else maxValue)!!
-
-        println(value)
+        
+        test(5)
     }
 
-    fun test(param : Int){
+    private fun test(param : Int){
         test(param)
     }
 
